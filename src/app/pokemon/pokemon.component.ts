@@ -9,6 +9,10 @@ import { PokemonService } from './pokemon.service';
 export class PokemonComponent  implements OnInit {
 
   public pokemons: any = []
+  public isModalOpen = false;
+  public selectedPokemon: any;
+  public pesquisarTermo: string ='';
+  public filtroPokemon: any[] = [];
   constructor(private pokemonService: PokemonService) { }
 
 
@@ -16,8 +20,33 @@ export class PokemonComponent  implements OnInit {
   ngOnInit() {
     this.pokemonService.getPokemon().subscribe((data) => {
       this.pokemons = data.results
-      console.log("Dataaaaaa=>", data)
+      this.filtroPokemon = this.pokemons
     })
+  }
+
+  fecharModal(){
+    this.isModalOpen = false
+  }
+
+  openModal(pokemon: any){
+    this.pokemonService.getPokemonDetalhes(pokemon.name).subscribe((detalhes) => {
+      this.selectedPokemon = detalhes
+      this.isModalOpen = true;
+    })
+
+  }
+
+  filtrarPokemon(){
+    if (!this.pesquisarTermo.trim()){
+        this.filtroPokemon = this.pokemons;
+
+      }
+
+      else {
+        this.filtroPokemon = this.pokemons.filter((p: any) =>
+        p.name.tolowerCase().includes.this.pesquisarTermo.toLocaleLowerCase()
+        );
+      }
   }
 
 }
