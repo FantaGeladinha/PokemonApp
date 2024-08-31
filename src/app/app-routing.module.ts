@@ -4,7 +4,12 @@ import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 const routes: Routes = [
   {
     path: '',
-    loadChildren: () => import('./tabs/tabs.module').then(m => m.TabsPageModule)
+    redirectTo: 'pokemon',
+    pathMatch: 'full'
+  },
+{
+    path:'pokemon',
+    loadChildren: () => import('./pokemon/pokemon.module').then(m => m.PokemonComponentModule)
   }
 ];
 @NgModule({
